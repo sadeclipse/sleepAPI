@@ -10,7 +10,7 @@ router = APIRouter()
 async def healt_check():
     return {"status": "OK"}
 
-
+#add validation...
 @router.post("/predict")
 async def predict(wine: PredictionRequest) -> PredictionResponse:
     return {"quality of wine": "to test it we will set it to 5"}
