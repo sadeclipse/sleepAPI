@@ -15,9 +15,7 @@ def load_df(path: str) -> pd.DataFrame:
 def get_train_test(df: pd.DataFrame):
     features = df.iloc[:, 0:-2]
     target_cat = df.iloc[:, -1]
-    le = LabelEncoder()
-    target_cat = le.fit_transform(target_cat).astype("int32")
-    target_num = df.iloc[:, -2].astype("float32")
+    target_num = df.iloc[:, -2]
     return train_test_split(
         features,
         target_cat,
