@@ -15,15 +15,15 @@ NUM_COLS = [
     "daily_steps",
     "calories_burned",
     "resting_heart_rate",
-    "daily_sleep_hours",
+    "sleep_deviation",
     "deep_sleep_hours",
 ]
 OUT_CLASSES_NUM = 3
 
 
 def get_train_test(df, cat_cols, num_cols):
-    target_cat = df.iloc[:, -1].values
-    target_num = df.iloc[:, -2].values
+    target_cat = df["daily_stress_level"].values
+    target_num = df["sleep_quality_score"].values
 
     if target_cat.dtype == object or target_cat.dtype.name == "category":
         le = LabelEncoder()
@@ -31,7 +31,7 @@ def get_train_test(df, cat_cols, num_cols):
 
     target_num = target_num.astype(np.float32)
 
-    features = df.drop(columns=[df.columns[-1], df.columns[-2]])
+    features = df.drop(columns=["daily_stress_level", "sleep_quality_score"])
 
     X_train, X_test, y_cat_train, y_cat_test, y_num_train, y_num_test = (
         train_test_split(
@@ -110,7 +110,7 @@ def build_nn(X_train_dict, cat_cols, num_cols, out_classes_num) -> models.Model:
 
 if __name__ == "__main__":
     df = pd.read_csv("C:/Users/user/Desktop/data/sleepapi/app/data/reSS.csv")
-
+    df["deep_sleep_hours"] = (1.75 - df["deep_sleep_hours"]).abs()
     X_train_dict, X_test_dict, y_cat_train, y_cat_test, y_num_train, y_num_test = (
         get_train_test(df, CAT_COLS, NUM_COLS)
     )
@@ -120,13 +120,15 @@ if __name__ == "__main__":
     model.fit(
         x=X_train_dict,
         y={"classification_out": y_cat_train, "numerical_out": y_num_train},
-        epochs=40,
+        epochs=80,
         batch_size=32,
         validation_data=(
             X_test_dict,
             {"classification_out": y_cat_test, "numerical_out": y_num_test},
         ),
     )
-
+    df.head(50).to_csv(
+        "C:/Users/user/Desktop/data/sleepapi/app/ml/background.csv", index=False
+    )
     model.save("model.keras")
     print("Модель успешно сохранена!")
