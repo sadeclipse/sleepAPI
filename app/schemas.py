@@ -39,7 +39,7 @@ class PredictionResponse(BaseModel):
         ..., description="Уникальный ID записи в БД для генерации SHAP по кнопке"
     )
     sleep_quality_score: float = Field(
-        ..., gt=0.0, lt=10.0, description="Оценка качества сна"
+        ..., ge=0.0, le=10.0, description="Оценка качества сна"
     )
     daily_stress_level: Literal["Low", "Medium", "High"] = Field(
         ..., description="Уровень стресса"
