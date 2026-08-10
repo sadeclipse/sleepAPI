@@ -29,7 +29,7 @@ class PredictService:
         tf_inputs = {}
         for key, val in transformed_dict.items():
             if key in cat_cols:
-                tf_inputs[key] = np.array([val], dtype=object)  # Защита от str224
+                tf_inputs[key] = np.array([val], dtype=object)
             else:
                 tf_inputs[key] = np.array([val], dtype=np.float32)
 
@@ -52,4 +52,16 @@ class PredictService:
             id=db_record.id,
             sleep_quality_score=predicted_score,
             daily_stress_level=predicted_stress,
+        )
+
+    def get_prediction_by_id(self, prediction_id: int) -> PredictionResponse:
+        db_record = self.repo.get_by_id(prediction_id=prediction_id)
+        if db_record is None:
+            raise HTTPException(
+                status_code=404, detail=f"Prediction with id {prediction_id} not found"
+            )
+        return PredictionResponse(
+            id=db_record.id,
+            sleep_quality_score=db_record.sleep_quality_score,
+            daily_stress_level=db_record.daily_stress_level,
         )

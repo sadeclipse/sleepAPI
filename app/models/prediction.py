@@ -9,11 +9,9 @@ class PredictionModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Результаты вычислений сети
     sleep_quality_score = Column(Float, nullable=False)
     daily_stress_level = Column(String, nullable=False)
 
-    # 13 Сырых входящих признаков от пользователя
     age = Column(Integer, nullable=False)
     gender = Column(String, nullable=False)
     physical_activity_level = Column(String, nullable=False)

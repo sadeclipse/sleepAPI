@@ -14,6 +14,6 @@ async def lifespan(app: FastAPI):
     del app.state.ml_model
 
 
-app = FastAPI(title="Sleep API Service", lifespan=lifespan)
+app = FastAPI(title="sleep API service", lifespan=lifespan)
 
 app.include_router(router, prefix="/api/v1")

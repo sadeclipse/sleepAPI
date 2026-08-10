@@ -18,6 +18,11 @@ def get_predict_service(
 
 @router.post("/predict", response_model=PredictionResponse)
 async def predict_data(
-    payload: HealthMetrics, service: PredictService = Depends(get_predict_service)
+    data: HealthMetrics, service: PredictService = Depends(get_predict_service)
 ):
-    return service.predict_and_save(payload)
+    return service.predict_and_save(data=data)
+
+
+@router.get("/predict/{id}")
+async def get_data(id: int, service: PredictService = Depends(get_predict_service)):
+    return service.get_prediction_by_id(prediction_id=id)
