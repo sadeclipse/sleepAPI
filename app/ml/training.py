@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 CAT_COLS = ["gender", "physical_activity_level", "diet_type"]
+CAT_COLS = ["gender", "physical_activity_level", "diet_type"]
 NUM_COLS = [
     "age",
     "bmi",
@@ -88,6 +89,8 @@ def build_nn(X_train_dict, cat_cols, num_cols, out_classes_num) -> models.Model:
     x = layers.Dropout(0.2)(x)
     x = layers.Dense(128, activation="relu")(x)
     x = layers.Dropout(0.2)(x)
+    x = layers.Dense(256, activation="relu")(x)
+    x = layers.Dropout(0.2)(x)
 
     classification_out = layers.Dense(
         out_classes_num, activation="softmax", name="classification_out"
@@ -110,13 +113,17 @@ def build_nn(X_train_dict, cat_cols, num_cols, out_classes_num) -> models.Model:
 
 if __name__ == "__main__":
     df = pd.read_csv("C:/Users/user/Desktop/data/sleepapi/app/data/reSS.csv")
+
     df["deep_sleep_hours"] = (1.75 - df["deep_sleep_hours"]).abs()
+
+    if "sleep_deviation" in NUM_COLS and "sleep_deviation" not in df.columns:
+        df["sleep_deviation"] = (8.0 - df["daily_sleep_hours"]).abs()
+
     X_train_dict, X_test_dict, y_cat_train, y_cat_test, y_num_train, y_num_test = (
         get_train_test(df, CAT_COLS, NUM_COLS)
     )
 
     model = build_nn(X_train_dict, CAT_COLS, NUM_COLS, out_classes_num=OUT_CLASSES_NUM)
-
     model.fit(
         x=X_train_dict,
         y={"classification_out": y_cat_train, "numerical_out": y_num_train},
@@ -127,8 +134,11 @@ if __name__ == "__main__":
             {"classification_out": y_cat_test, "numerical_out": y_num_test},
         ),
     )
-    df.head(50).to_csv(
+    all_feature_cols = NUM_COLS + CAT_COLS
+    background_df = df[all_feature_cols].head(100)
+    background_df.to_csv(
         "C:/Users/user/Desktop/data/sleepapi/app/ml/background.csv", index=False
     )
+
     model.save("model.keras")
-    print("Модель успешно сохранена!")
+    print("Модель и background.csv успешно сохранены!")
