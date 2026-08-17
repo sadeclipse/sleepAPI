@@ -17,10 +17,10 @@ MAPPINGS = {
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
 
-    model = tf.keras.models.load_model("ml/model.keras")
+    model = tf.keras.models.load_model("app/ml/model.keras")
     app.state.ml_model = model
 
-    bg_df = pd.read_csv("ml/background.csv")
+    bg_df = pd.read_csv("app/ml/background.csv")
     bg_df = bg_df.drop(
         columns=["daily_stress_level", "sleep_quality_score"], errors="ignore"
     )

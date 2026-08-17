@@ -112,7 +112,7 @@ def build_nn(X_train_dict, cat_cols, num_cols, out_classes_num) -> models.Model:
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("C:/Users/user/Desktop/data/sleepapi/app/data/reSS.csv")
+    df = pd.read_csv("app/data/reSS.csv")
 
     df["deep_sleep_hours"] = (1.75 - df["deep_sleep_hours"]).abs()
 
@@ -136,9 +136,7 @@ if __name__ == "__main__":
     )
     all_feature_cols = NUM_COLS + CAT_COLS
     background_df = df[all_feature_cols].head(100)
-    background_df.to_csv(
-        "C:/Users/user/Desktop/data/sleepapi/app/ml/background.csv", index=False
-    )
+    background_df.to_csv("app/ml/background.csv", index=False)
 
-    model.save("model.keras")
+    model.save("app/ml/model.keras")
     print("Модель и background.csv успешно сохранены!")
