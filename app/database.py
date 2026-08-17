@@ -1,12 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sleep.db"
+from config import settings
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
+    settings.DATABASE_URL,
     connect_args=(
-        {"check_same_thread": False} if "sqlite" in SQLALCHEMY_DATABASE_URL else {}
+        {"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
     ),
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

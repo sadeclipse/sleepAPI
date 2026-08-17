@@ -1,8 +1,0 @@
-{
-    "terminal.integrated.env.osx": {
-        "PYTHONPATH": "${workspaceFolder}/app"
-    },
-    "terminal.integrated.env.linux": {
-        "PYTHONPATH": "${workspaceFolder}/app"
-    }
-}

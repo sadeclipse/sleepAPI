@@ -5,7 +5,6 @@ import tensorflow as tf
 from fastapi import FastAPI
 from api.v1.routings import router
 from database import Base, engine
-from models.prediction import PredictionModel
 
 MAPPINGS = {
     "gender": {"male": 0, "female": 1, "other": 2},
