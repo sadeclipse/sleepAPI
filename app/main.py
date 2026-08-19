@@ -1,10 +1,13 @@
 from contextlib import asynccontextmanager
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import pandas as pd
 import shap
 import tensorflow as tf
 from fastapi import FastAPI
 from api.v1.routings import router
 from database import Base, engine
+import os
 
 MAPPINGS = {
     "gender": {"male": 0, "female": 1, "other": 2},
@@ -54,5 +57,16 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="sleep API service", lifespan=lifespan)
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(current_dir, "static")
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+
+@app.get("/")
+def read_root():
+    return FileResponse(os.path.join(static_dir, "index.html"))
+
 
 app.include_router(router, prefix="/api/v1")

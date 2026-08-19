@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мониторинг Здоровья и Сна</title>
+    <script src="/static/index.js" defer></script>
+</head>
+<body>
+
+    <h1>Прогноз Качества Сна и Стресса</h1>
+    <p>Заполните метрики здоровья:</p>
+    <form id="metricsForm">
+        
+        <p>
+            <label>Возраст (1-120):</label><br>
+            <input type="number" name="age" min="1" max="120" required>
+        </p>
+
+        <p>
+            <label>Пол:</label><br>
+            <select name="gender" required>
+                <option value="male">Мужской</option>
+                <option value="female">Женский</option>
+                <option value="other">Другой</option>
+            </select>
+        </p>
+
+        <p>
+            <label>Уровень физической активности:</label><br>
+            <select name="physical_activity_level" required>
+                <option value="Low">Низкий (Low)</option>
+                <option value="Medium">Средний (Medium)</option>
+                <option value="High">Высокий (High)</option>
+            </select>
+        </p>
+
+        <p>
+            <label>Тип питания:</label><br>
+            <select name="diet_type" required>
+                <option value="Unhealthy">Нездоровое (Unhealthy)</option>
+                <option value="Average">Среднее (Average)</option>
+                <option value="Healthy">Здоровое (Healthy)</option>
+            </select>
+        </p>
+
+<p>
+            <label>Индекс массы тела:</label><br>
+            <input type="number" step="0.1" name="bmi" id="bmiInput" min="10" max="60" required style="width: 100px;">
+            <br>
+            <small>
+                <a href="#" id="toggleBmiCalc" style="color: blue; text-decoration: underline; cursor: pointer;">
+                    Не помню свой ИМТ (рассчитать по росту и весу)
+                </a>
+            </small>
+        </p>
+
+        <div id="bmiCalcContainer" style="display: none; background-color: #f9f9f9; padding: 15px; border: 1px dashed #ccc; margin-top: 5px;">
+            <p style="margin: 5px 0;">
+                <label>Рост (в см):</label><br>
+                <input type="number" id="calcHeight" min="50" max="250" placeholder="Например, 175", style="width: 120px;">
+            </p>
+            <p style="margin: 5px 0;">
+                <label>Вес (в кг):</label><br>
+                <input type="number" step="0.1" id="calcWeight" min="10" max="200" placeholder="Например, 70", style="width: 120px;">
+            </p>
+        </div>
+        <p>
+            <label>Потребление кофеина (мг):</label><br>
+            <input type="number" name="caffeine_intake_mg" min="0" required>
+        </p>
+
+        <p>
+            <label>Потребление воды (литры):</label><br>
+            <input type="number" step="0.1" name="water_intake_liters" min="0" required>
+        </p>
+
+        <p>
+            <label>Экранное время (часы: 0-24):</label><br>
+            <input type="number" step="0.1" name="screen_time_hours" min="0" max="24" required>
+        </p>
+
+        <p>
+            <label>Количество шагов за день:</label><br>
+            <input type="number" name="daily_steps" min="0" required>
+        </p>
+
+        <p>
+            <label>Сожженные калории (ккал):</label><br>
+            <input type="number" name="calories_burned" min="0" required>
+        </p>
+
+        <p>
+            <label>Пульс в покое (10-150 уд/мин):</label><br>
+            <input type="number" name="resting_heart_rate" min="10" max="150" required>
+        </p>
+
+        <p>
+            <label>Всего часов сна за сутки (0-24):</label><br>
+            <input type="number" step="0.1" name="daily_sleep_hours" min="0" max="24" required>
+        </p>
+
+        <p>
+            <label>Часов глубокого сна (0-24):</label><br>
+            <input type="number" step="0.1" name="deep_sleep_hours" min="0" max="24" required>
+        </p>
+
+        <p>
+            <button type="submit">Получить оценку</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <div id="resultContainer" style="display: none;">
+        <h2>Результаты оценки:</h2>
+        
+        <p><strong>Оценка качества сна (0-10):</strong> <span id="resSleepScore">-</span></p>
+        <p><strong>Уровень стресса:</strong> <span id="resStressLevel">-</span></p>
+
+        <p>
+            <button id="shapBtn">Показать SHAP объяснение модели</button>
+        </p>
+
+        <div id="shapImageContainer" style="display: none;">
+            <h3>Влияние признаков на модель (SHAP Waterfall)</h3>
+            <img id="shapImage" src="" alt="SHAP Explanation">
+        </div>
+    </div>
+
+</body>
+</html>
