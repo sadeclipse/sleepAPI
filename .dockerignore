@@ -1,0 +1,12 @@
+**/__pycache__/
+*.pyc
+
+.git/
+.gitignore
+.vscode/
+
+.env
+env/
+
+*.ps1
+.DS_Store
