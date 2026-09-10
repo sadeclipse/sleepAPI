@@ -1,0 +1,21 @@
+services:
+  sleepapi:
+    image: sleepapi:1.0
+    container_name: sleepapi
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  database:
+    image: postgres:latest
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

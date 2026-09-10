@@ -9,3 +9,4 @@ shap>=0.45.0
 SQLAlchemy>=2.0.0
 tensorflow>=2.16.0
 pydantic-settings==2.14.2
+psycopg2-binary>=2.9.9

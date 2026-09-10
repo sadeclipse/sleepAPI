@@ -47,12 +47,14 @@ class PredictService:
 
         class_pred, num_pred = self.model.predict(tf_inputs)
 
-        predicted_score = round(
-            max(
-                0.1, min(9.9, float(num_pred if len(num_pred.shape) > 1 else num_pred))
-            ),
-            2,
-        )
+
+        if hasattr(num_pred, "ndim") and num_pred.ndim > 0:
+            scalar_pred = float(num_pred.item() if hasattr(num_pred, "item") else num_pred.flatten()[0])
+        else:
+            scalar_pred = float(num_pred)
+            
+        predicted_score = round(max(0.1, min(9.9, scalar_pred)), 2)
+        
         stress_mapping = {0: "High", 1: "Low", 2: "Medium"}
         predicted_stress = stress_mapping.get(int(np.argmax(class_pred)), "Medium")
 
