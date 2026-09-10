@@ -31,10 +31,18 @@ The project requires libraries like `fastapi`, `tensorflow`, `pandas`, `scikit-l
 Once the server is running, you can access the interactive API documentation (Swagger UI) at:
 **http://127.0.0**
 
+#### Can also be built using docker compose
+but i got lazy and i didnt push my image on a docker hub so u can either copy everything locally and do an image from it, or just trust me that it works
+
 ## Environment Variables
 
 Create a `.env` file in the root directory. Currently, there is only one required variable for the database connection (SQLite is used as the default since the project does not require scaling):
 
 ```text
-DATABASE_URL=sqlite:///./sleep.db
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=db_name
+
+POSTGRES_SERVER=postgres_db
+POSTGRES_PORT=5432
 ```
